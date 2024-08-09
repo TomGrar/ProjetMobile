@@ -2,7 +2,7 @@ import {View, StyleSheet, Text, Dimensions} from "react-native";
 import Montserrat from "../../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
-export default function ContactProfile({style, phone, email}){
+export default function ContactProfile({style, email}){
     const fontStyles = Montserrat();
 
     if (!fontStyles) {
@@ -10,10 +10,6 @@ export default function ContactProfile({style, phone, email}){
     }
     return(
         <View style={[styles.container, style]}>
-            <View style={styles.infoPart}>
-                <Icon name={'phone-outline'} size={Dimensions.get('window').width * 0.08} color={'#e8871e'}/>
-                <Text style={[styles.textContact, {fontFamily: fontStyles.bold}]}>{phone}</Text>
-            </View>
             <View style={styles.infoPart}>
                 <Icon name={'email-outline'} size={Dimensions.get('window').width * 0.08} color={'#e8871e'}/>
                 <Text style={[styles.textContact, {fontFamily: fontStyles.bold}]}>{email}</Text>

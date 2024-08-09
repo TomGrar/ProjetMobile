@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Dimensions, StyleSheet, Text, View} from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
 import RoundButton from "../Components/RoundButton";
 import ImageProfile from "../Components/Profile/ImageProfile";
@@ -7,33 +7,43 @@ import { useNavigation } from '@react-navigation/native';
 import ProfileInformation from "../Components/Profile/ProfileInformation";
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import api from "../utils/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, {useEffect, useState} from "react";
 
 export default function MyProfileScreen() {
-    const profile = {
-        firstname: "Antoine",
-        lastname: "Lefevre",
-        description: "Passionné de sports et de voyage, Antoine aime explorer de nouveaux horizons. Sa devise : 'Le sport, un mode de vie'. Il trouve l'équilibre entre le travail et le bien-être grâce à une routine sportive régulière.",
-        birthday: new Date("1995-08-27"),
-        gender: "masculin",
-        country: "Belgique",
-        street: "Rue de la Tour",
-        number: "45",
-        locality: "Chimay",
-        postalCode: "12345",
-        phoneNumber: "123456789",
-        mail: 'antoine.lefevre@mail.com',
-        sports: [
-            { id: 30, name: "Basketball", level: "Amateur" },
-            { id: 31, name: "Course à pied", level: "Pro" }
-        ]
-    };
-
+    const [profile, setProfile] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentUserId, setCurrentUserId] = useState(null);
+    const fontStyles = Montserrat();
     const navigation = useNavigation();
+
     function goToEditing(){
-        navigation.navigate('EditingProfile');
+        navigation.navigate('EditingProfile', {profile: profile});
     }
 
-    const fontStyles = Montserrat();
+    useEffect(() => {
+        const currentUserId = async () => {
+            const userId = await AsyncStorage.getItem('userId');
+            setCurrentUserId(userId);
+            try {
+                const response = await api.get(`/app/member/profile/${userId}`);
+                setProfile(response.data);  // Assurez-vous que la structure est correcte
+
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        currentUserId();
+    }, []);
+
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#e8871e" />;
+    }
+
 
     if (!fontStyles) {
         return null;

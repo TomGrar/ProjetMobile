@@ -3,6 +3,7 @@ import MainInfoProfile from "./MainInfoProfile";
 import ContactProfile from "./ContactProfile";
 import SportProfile from "./SportProfile";
 import Montserrat from "../../assets/MontSerratFonts";
+
 export default function ProfileInformation({profile}){
     const fontStyles = Montserrat();
 
@@ -15,7 +16,7 @@ export default function ProfileInformation({profile}){
             <Text style={[styles.profileName, {fontFamily: fontStyles.extraBold}]}>{profile.firstname + ' ' + profile.lastname }</Text>
             <MainInfoProfile  profile={profile}/>
             <Text style={[styles.bio,{fontFamily: fontStyles.medium}]}>{profile.description}</Text>
-            <ContactProfile  email={profile.mail} phone={profile.phoneNumber}/>
+            <ContactProfile  email={profile.mail}/>
             <SportProfile style={{height:  '25%'}} sports={profile.sports}/>
         </View>
     )
@@ -34,8 +35,10 @@ const styles = StyleSheet.create({
         fontSize: 23,
     },
 
-    bio:{
+    bio: {
         width: '90%',
         color: '#46494c',
+        textAlign: 'center',
+        marginVertical: 10
     }
 })

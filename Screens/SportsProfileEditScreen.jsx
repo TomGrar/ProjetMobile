@@ -2,15 +2,13 @@ import {StyleSheet, Text, View} from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
 import ImageProfile from "../Components/Profile/ImageProfile";
 import BackButton from "../Components/BackButton";
-import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import React, {useState} from "react";
 import SportDropDown from "../Components/Profile/editProfile/SportsDropDownProfiles";
 
-export default function EditSports() {
-    const navigation = useNavigation();
-
+export default function EditSports({route}) {
+    const {profileId} = route.params;
     const fontStyles = Montserrat();
 
     if (!fontStyles) {
@@ -27,7 +25,7 @@ export default function EditSports() {
                 <Icon name={'key-outline'} color={'#46494c'} size={20}/>
                 <Text style={[styles.textBack,{fontFamily: fontStyles.medium}]}>Mes sports</Text>
             </BackButton>
-            <SportDropDown/>
+            <SportDropDown profileId={profileId}/>
         </View>
     );
 }
@@ -37,6 +35,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f6f7fb',
         alignItems: "center",
+        width: '100%'
     },
 
     fields: {

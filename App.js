@@ -13,10 +13,14 @@ import SearchProfileScreen from "./Screens/SearchProfileScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
 
 export default function App() {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const Stack = createNativeStackNavigator();
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false, animation: 'slide_from_right'}}>
+                <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Home" component={HomeScreen}/>
                 <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{ animation: 'fade_from_bottom'}}/>
                 <Stack.Screen name="EditingProfile" component={EditProfileScreen} options={{ animation: 'fade_from_bottom'}}/>

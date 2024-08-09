@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Alert, Dimensions, StyleSheet, Text, View} from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
 import ImageProfile from "../Components/Profile/ImageProfile";
 import BackButton from "../Components/BackButton";
@@ -7,20 +7,22 @@ import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import ButtonRectangle from "../Components/ButtonRectangle";
 import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function EditingChoiceScreen() {
+export default function EditingChoiceScreen({route}) {
     const navigation = useNavigation();
+    const {profile} = route.params;
 
     function goEditPassword(){
-        navigation.navigate('EditPassword')
+        navigation.navigate('EditPassword', {profileId : profile.id})
     }
 
     function goEditMainInformation(){
-        navigation.navigate('EditMainInformation')
+        navigation.navigate('EditMainInformation', {profile : profile})
     }
 
     function goEditSports(){
-        navigation.navigate('EditSports')
+        navigation.navigate('EditSports', {profileId : profile.id})
     }
 
     const fontStyles = Montserrat();
@@ -28,6 +30,34 @@ export default function EditingChoiceScreen() {
     if (!fontStyles) {
         return null;
     }
+
+    const handleLogout = () => {
+        Alert.alert(
+            "Déconnexion",
+            "Êtes-vous sûr de vouloir vous déconnecter ?",
+            [
+                {
+                    text: "Annuler",
+                    style: "cancel"
+                },
+                {
+                    text: "Déconnexion",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            // Effacer les données d'authentification de l'AsyncStorage
+                            await AsyncStorage.removeItem('userToken');
+                            await AsyncStorage.removeItem('userId');
+                            // Rediriger vers l'écran de connexion
+                            navigation.navigate('Login'); // Assurez-vous que 'Login' est le nom correct de votre écran de connexion
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                }
+            ]
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -52,7 +82,7 @@ export default function EditingChoiceScreen() {
                         <Text style={[styles.textButton,{ fontFamily: fontStyles.bold}]}>Mes Sports</Text>
                         <Icon name={'chevron-right'} size={Dimensions.get('window').width * 0.08} color={'#46494c'}/>
                     </ButtonRectangle>
-                    <ButtonRectangle style={styles.button}>
+                    <ButtonRectangle onPress={handleLogout} style={styles.button}>
                         <Icon name={'logout'} color={'#46494c'} size={Dimensions.get('window').width * 0.06}/>
                         <Text style={[styles.textButton,{ fontFamily: fontStyles.bold}]}>Se déconnecter</Text>
                         <Icon name={'chevron-right'} size={Dimensions.get('window').width * 0.08} color={'#46494c'}/>

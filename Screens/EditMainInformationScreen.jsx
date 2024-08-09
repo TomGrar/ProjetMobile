@@ -9,13 +9,11 @@ import BackButton from "../Components/BackButton";
 import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import ButtonRectangle from "../Components/ButtonRectangle";
 import React from "react";
 import ProfileForm from "../Components/Profile/editProfile/ProfileForm";
 
-export default function EditMainInformationScreen() {
-    const navigation = useNavigation();
-
+export default function EditMainInformationScreen({route}) {
+    const {profile} = route.params;
     const fontStyles = Montserrat();
 
     if (!fontStyles) {
@@ -33,10 +31,7 @@ export default function EditMainInformationScreen() {
                 <Icon name={'account-details-outline'} color={'#46494c'} size={20}/>
                 <Text style={[styles.textBack,{fontFamily: fontStyles.medium}]}>Mes informations</Text>
             </BackButton>
-            <ProfileForm/>
-            <ButtonRectangle style={styles.buttonConfirm}>
-                <Text style={[styles.textConfirm, {fontFamily: fontStyles.bold}]}>Modifier</Text>
-            </ButtonRectangle>
+            <ProfileForm profile={profile}/>
         </KeyboardAvoidingView>
     );
 }
@@ -56,13 +51,6 @@ const styles = StyleSheet.create({
     textConfirm:{
         fontSize: 18,
         color: 'white',
-    },
-
-    buttonConfirm:{
-        backgroundColor: '#E8871E',
-        alignSelf: 'center',
-        height: '6%',
-        marginTop: "5%",
     },
 
     textBack:{

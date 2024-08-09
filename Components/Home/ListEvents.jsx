@@ -1,22 +1,54 @@
-import {Text, View, StyleSheet, ScrollView, FlatList} from "react-native";
+import {Text, View, StyleSheet, ScrollView, FlatList, Alert, ActivityIndicator} from "react-native";
 import Montserrat from "../../assets/MontSerratFonts";
 import Event from "./EventButtonList";
+import React, {useEffect, useState} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../utils/api";
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
 export default function Events() {
     const fontStyles = Montserrat();
+    const [eventsData, setEventsData] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const currentUserId = async () => {
+            const userId = await AsyncStorage.getItem('userId');
+            setCurrentUserId(userId);
+            getAPI(userId); // Passer l'ID de l'utilisateur à la fonction getAPI
+        };
+        currentUserId();
+    }, []);
+
+
+    const getAPI = async (userId) => {
+            try {
+                const response = await api.get(`/app/event/all/${userId}`);
+                setEventsData(response.data);
+            } catch (err) {
+                console.error('Erreur lors de la récupération des événements:', err);
+                setError('Une erreur est survenue. Veuillez réessayer.');
+            } finally {
+                setLoading(false);
+            }
+    }
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#e8871e" />;
+    }
+
 
     if (!fontStyles) {
         return null;
     }
-
-    const eventsData = [
-        { id: 1, title: 'Match de football', sport: 'Football', city: 'Paris', date: '2023-11-15' },
-        { id: 2, title: 'Tournoi de tennis', sport: 'Tennis', city: 'Lyon', date: '2023-11-20' },
-        { id: 4, title: 'Course à pied', sport: 'Athlétisme', city: 'Marseille', date: '2023-11-25' },
-        { id: 5, title: 'Course à pied', sport: 'Athlétisme', city: 'Marseille', date: '2023-11-25' },
-        { id: 6, title: 'Course à pied', sport: 'Athlétisme', city: 'Marseille', date: '2023-11-25' },
-        // Add more events as needed
-    ];
 
     return (
         <View style={styles.container}>
@@ -29,7 +61,7 @@ export default function Events() {
                     title={item.title}
                     sport={item.sport}
                     city={item.city}
-                    date={item.date}
+                    date={formatDate(item.date)}
                 />
             )}
                 style={styles.listEvents}
@@ -40,19 +72,18 @@ export default function Events() {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'column',
-        width: '100%',
-        alignItems : 'center'
+        flex: 1, // Assure que le container occupe tout l'espace disponible
+        alignItems: 'center',
+        paddingTop: 20, // Ajoute un petit espace en haut
     },
 
     text: {
         fontSize: 23,
         color: '#46494c',
+        marginBottom: 10, // Ajoute un espace sous le titre
     },
 
     listEvents: {
-        flexDirection: 'column',
-        maxHeight: '60%',
-        width: '85%',
+        width: '150%', // Ajuste la largeur de la liste
     },
 });

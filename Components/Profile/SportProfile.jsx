@@ -14,10 +14,10 @@ export default function SportProfile({style, sports}){
                 <Text style={[styles.sportTitle, {fontFamily: fontStyles.extraBold}]}>Sports</Text>
             </View>
             <View style={styles.listsSport}>
-                {sports.map((sport) => (
-                    <View style={styles.sport}>
+                {sports.map((sport, index) => (
+                    <View key={sport.id || index} style={styles.sport}>
                         <Text style={[styles.sportText, {fontFamily: fontStyles.bold}]}>{sport.name}</Text>
-                        <Text style={[styles.levelText, {fontFamily: fontStyles.regular}]}>{sport.level}</Text>
+                        <Text style={[styles.levelText, {fontFamily: fontStyles.regular}]}>{sport.nbYears} ans</Text>
                     </View>
                 ))}
             </View>
