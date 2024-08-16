@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, FlatList, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, FlatList, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import GrayRectangle from '../Components/GreyRectangle';
 import BackButton from '../Components/BackButton';
 import { useNavigation } from '@react-navigation/native';

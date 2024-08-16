@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import ButtonRectangle from "../Components/ButtonRectangle";
-import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditingChoiceScreen({route}) {

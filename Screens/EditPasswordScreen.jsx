@@ -1,4 +1,3 @@
-import React from 'react';
 import {KeyboardAvoidingView, StyleSheet, Text, View, Alert, Platform, ScrollView} from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
 import BackButton from "../Components/BackButton";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, View, ActivityIndicator } from 'react-native';
 import SearchButtons from "../Components/Home/SearchButtons";
 import ListEvents from "../Components/Home/ListEvents";

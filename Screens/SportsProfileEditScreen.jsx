@@ -4,7 +4,6 @@ import ImageProfile from "../Components/Profile/ImageProfile";
 import BackButton from "../Components/BackButton";
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import React, {useState} from "react";
 import SportDropDown from "../Components/Profile/SportsDropDownProfiles";
 
 export default function EditSports({route}) {

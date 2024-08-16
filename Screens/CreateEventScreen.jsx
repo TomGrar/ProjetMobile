@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState} from "react";
 import {KeyboardAvoidingView, StyleSheet, Text, ScrollView, Pressable, Alert, Platform, View} from "react-native";
 import GrayRectangle from "../Components/GreyRectangle";
 import BackButton from "../Components/BackButton";

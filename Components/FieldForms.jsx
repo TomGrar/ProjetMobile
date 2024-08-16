@@ -1,6 +1,6 @@
-
 import {Text, TextInput, View, StyleSheet} from "react-native";
 import Montserrat from "../assets/MontSerratFonts";
+
 export default function FieldForms({title, style, multiline, numberOfLines, editable, placeholder, textColor, inputMode, value, onChangeText, error}){
     const fontStyles = Montserrat();
 

@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import ProfileInformation from "../Components/Profile/ProfileInformation";
 import Montserrat from "../assets/MontSerratFonts";
 import ButtonRectangle from "../Components/ButtonRectangle";
-import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function ProfileScreen({route}) {

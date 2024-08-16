@@ -2,7 +2,6 @@ import {
     KeyboardAvoidingView,
     StyleSheet,
     Text,
-    View,
     Alert,
     TouchableOpacity, ScrollView
 } from 'react-native';
@@ -10,7 +9,6 @@ import GrayRectangle from "../Components/GreyRectangle";
 import BackButton from "../Components/BackButton";
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import React from "react";
 import EventEditForm from "../Components/Event/EventEditForm";
 import { useNavigation } from '@react-navigation/native';
 import api from "../utils/api";

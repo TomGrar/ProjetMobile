@@ -1,7 +1,5 @@
-import React from "react";
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, Platform } from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
-import ImageProfile from "../Components/Profile/ImageProfile";
 import BackButton from "../Components/BackButton";
 import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";

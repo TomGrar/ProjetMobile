@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    TextInput,
     FlatList,
     KeyboardAvoidingView,
-    Dimensions,
     TouchableOpacity, Alert
 } from 'react-native';
 import GrayRectangle from '../Components/GreyRectangle';

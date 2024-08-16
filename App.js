@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import LoginScreen from "./Screens/LoginScreen";
 import HomeScreen from "./Screens/HomeScreen";
 import MyProfileScreen from "./Screens/MyProfileScreen";
@@ -19,8 +18,6 @@ import CreateEventScreen from "./Screens/CreateEventScreen";
 import RegisterScreen from "./Screens/RegisterScreen";
 
 export default function App() {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     const Stack = createNativeStackNavigator();
     return (

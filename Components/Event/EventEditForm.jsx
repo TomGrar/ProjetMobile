@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ScrollView, Pressable, Text, StyleSheet, Platform, View, Alert } from "react-native";
+import { useState } from "react";
+import { Pressable, Text, StyleSheet, Platform, View, Alert } from "react-native";
 import FieldForms from "../FieldForms";
 import Montserrat from "../../assets/MontSerratFonts";
 import DateTimePicker from "@react-native-community/datetimepicker";

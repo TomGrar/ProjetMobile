@@ -4,14 +4,10 @@ import {
     Text
 } from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
-import ImageProfile from "../Components/Profile/ImageProfile";
 import BackButton from "../Components/BackButton";
-import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import React from "react";
 import ProfileEditForm from "../Components/Profile/ProfileEditForm";
-import RegisterForm from "../Components/Profile/RegisterForm";
 
 export default function EditMainInformationScreen({route}) {
     const {profile} = route.params;

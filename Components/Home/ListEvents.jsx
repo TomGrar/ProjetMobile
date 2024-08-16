@@ -1,8 +1,6 @@
-import {Text, View, StyleSheet, ScrollView, FlatList, Alert, ActivityIndicator} from "react-native";
+import {Text, View, StyleSheet, FlatList} from "react-native";
 import Montserrat from "../../assets/MontSerratFonts";
 import Event from "./EventButtonList";
-import React from "react";
-i
 
 export default function Events({events}) {
     const fontStyles = Montserrat();

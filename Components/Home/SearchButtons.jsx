@@ -1,7 +1,6 @@
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Montserrat from "../../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import React from "react";
 import {useNavigation} from "@react-navigation/native";
 
 export default function SearchButtons({style}){

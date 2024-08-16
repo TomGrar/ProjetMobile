@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, FlatList, KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 import GrayRectangle from '../Components/GreyRectangle';
 import BackButton from '../Components/BackButton';
-import { useNavigation } from '@react-navigation/native';
 import Montserrat from '../assets/MontSerratFonts';
 import FieldForms from "../Components/FieldForms";
 import {Picker} from "@react-native-picker/picker";

@@ -1,5 +1,4 @@
 import {TouchableOpacity, StyleSheet} from "react-native";
-
 export default function RoundButton({children, style, onPress}){
     return(
         <TouchableOpacity style={[styles.button, style]} onPress={onPress}>

@@ -1,4 +1,3 @@
-import React from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Montserrat from "../../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"

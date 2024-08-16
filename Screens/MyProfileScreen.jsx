@@ -9,7 +9,7 @@ import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import api from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, {useEffect, useState} from "react";
+import{useEffect, useState} from "react";
 
 export default function MyProfileScreen() {
     const [profile, setProfile] = useState([]);

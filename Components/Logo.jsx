@@ -1,5 +1,6 @@
 import {Image, Text, View, StyleSheet} from "react-native";
 import {useFonts, Montserrat_600SemiBold } from "@expo-google-fonts/montserrat"
+
 export default function Logo(){
     let [fontsLoaded] = useFonts({
         Montserrat_600SemiBold

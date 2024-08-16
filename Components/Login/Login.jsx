@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import api from "../../utils/api";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -59,7 +57,7 @@ export default function Login() {
         <View>
             <View style={styles.containerField}>
                 <View style={styles.adresseMail}>
-                    <FontAwesomeIcon icon={faEnvelope} color={'#46494C'} />
+                    <Icon name={'email-outline'} color={'#46494c'} size={20}/>
                     <Text style={styles.adresseMailText}>Adresse Mail</Text>
                 </View>
                 <TextInput
@@ -70,7 +68,7 @@ export default function Login() {
                     onChangeText={setEmail}
                 />
                 <View style={styles.password}>
-                    <FontAwesomeIcon icon={faLock} color={'#46494C'} />
+                    <Icon name={'lock-outline'} color={'#46494c'} size={20}/>
                     <Text style={styles.passwordText}>Mot de passe</Text>
                 </View>
                 <TextInput
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: '65%',
-        height: '15%',
+        height: '25%',
         backgroundColor: '#E8871E',
         borderRadius: 5,
     },

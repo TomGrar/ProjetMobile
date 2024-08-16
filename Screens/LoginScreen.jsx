@@ -1,6 +1,7 @@
 import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
 import Logo from '../Components/Logo'
 import Login from '../Components/Login/Login'
+
 function LoginScreen(){
     return (
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
