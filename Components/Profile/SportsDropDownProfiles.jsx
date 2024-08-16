@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, TextInput, ScrollView } from "react-native";
-import api from "../../../utils/api";
-import Montserrat from "../../../assets/MontSerratFonts"; // Importation de la police Montserrat
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Pour l'icône de suppression
+import api from "../../utils/api";
+import Montserrat from "../../assets/MontSerratFonts";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Picker } from '@react-native-picker/picker';
 
 export default function SportDropDown({ profileId }) {
@@ -21,7 +21,7 @@ export default function SportDropDown({ profileId }) {
                 const sportsResponse = await api.get('/app/sport/all');
                 setSports(sportsResponse.data);
 
-                const userSportsResponse = await api.get(`/app/member/sports/${profileId}`);
+                const userSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
                 setSportLists(userSportsResponse.data);
             } catch (error) {
                 console.error(error);
@@ -56,9 +56,9 @@ export default function SportDropDown({ profileId }) {
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            await api.delete(`/app/member/sports/${sportUserId}`);
+                            await api.delete(`/app/sport/${sportUserId}`);
                             // Recharger la liste des sports après suppression
-                            const updatedUserSportsResponse = await api.get(`/app/member/sports/${profileId}`);
+                            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
                             setSportLists(updatedUserSportsResponse.data);
                         } catch (error) {
                             console.error('Error deleting sport:', error);
@@ -89,13 +89,13 @@ export default function SportDropDown({ profileId }) {
         }
 
         try {
-            await api.post('/app/member/addSport', {
+            await api.post('/app/sport/addForUser', {
                 memberId: profileId,
                 sportId: selectedSportId,
                 level
             });
             // Recharger la liste des sports après ajout
-            const updatedUserSportsResponse = await api.get(`/app/member/sports/${profileId}`);
+            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
             setSportLists(updatedUserSportsResponse.data);
             setSelectedSportId(null); // Réinitialiser la sélection
             setNewSportLevel(""); // Réinitialiser le niveau
@@ -112,12 +112,12 @@ export default function SportDropDown({ profileId }) {
         }
 
         try {
-            await api.patch('app/member/sportsLevel', {
+            await api.patch('app/sport/changeLevel', {
                 sportUserId: editSportId,
                 newLevel: level
             });
             // Recharger la liste des sports après modification
-            const updatedUserSportsResponse = await api.get(`/app/member/sports/${profileId}`);
+            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
             setSportLists(updatedUserSportsResponse.data);
             setEditSportId(null); // Réinitialiser l'ID du sport modifié
             setEditSportLevel(""); // Réinitialiser le niveau modifié
@@ -141,7 +141,7 @@ export default function SportDropDown({ profileId }) {
                             {sportProfile.name || 'Non spécifié'}
                         </Text>
                         {editSportId === sportProfile.sportuserid ? (
-                            <View>
+                            <View style={styles.editSection}>
                                 <TextInput
                                     style={styles.textInput}
                                     keyboardType="numeric"
@@ -172,23 +172,25 @@ export default function SportDropDown({ profileId }) {
                                 {sportProfile.level} ans
                             </Text>
                         )}
-                        <TouchableOpacity
-                            style={styles.deleteButton}
-                            onPress={() => handleDelete(sportProfile.sportuserid)}
-                        >
-                            <Icon name="delete" size={24} color="#e8871e" />
-                        </TouchableOpacity>
-                        {editSportId === null && (
+                        <View style={styles.actionsContainer}>
                             <TouchableOpacity
-                                style={styles.editButton}
-                                onPress={() => {
-                                    setEditSportId(sportProfile.sportuserid);
-                                    setEditSportLevel(sportProfile.level.toString());
-                                }}
+                                style={styles.deleteButton}
+                                onPress={() => handleDelete(sportProfile.sportuserid)}
                             >
-                                <Icon name="pencil" size={24} color="#e8871e" />
+                                <Icon name="delete" size={24} color="#e8871e" />
                             </TouchableOpacity>
-                        )}
+                            {editSportId === null && (
+                                <TouchableOpacity
+                                    style={styles.editButton}
+                                    onPress={() => {
+                                        setEditSportId(sportProfile.sportuserid);
+                                        setEditSportLevel(sportProfile.level.toString());
+                                    }}
+                                >
+                                    <Icon name="pencil" size={24} color="#e8871e" />
+                                </TouchableOpacity>
+                            )}
+                        </View>
                     </View>
                 ))
             )}
@@ -226,94 +228,103 @@ export default function SportDropDown({ profileId }) {
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1, // Assure que le container occupe tout l'espace disponible
-        padding: 20,
-        backgroundColor: '#f5f5f5',
+        flexGrow: 1,
+        padding: 15,
+        backgroundColor: '#f6f7fb',
     },
     message: {
-        fontSize: 16,
-        color: '#888',
-        textAlign: 'center',
-    },
-    sportContainer: {
-        padding: 15,
-        marginBottom: 10,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        alignItems: 'center',
-        position: 'relative', // Pour positionner le bouton de suppression
-    },
-    sportName: {
-        fontSize: 20,
-        color: '#333',
-        textAlign: 'center',
-    },
-    sportLevel: {
         fontSize: 18,
         color: '#666',
         textAlign: 'center',
-        marginTop: 5,
-    },
-    deleteButton: {
-        position: 'absolute',
-        top: 15,
-        right: 15,
-    },
-    editButton: {
-        position: 'absolute',
-        top: 15,
-        left: 15,
-    },
-    addSportContainer: {
         marginTop: 20,
-        padding: 15,
-        backgroundColor: 'white',
+    },
+    sportContainer: {
+        backgroundColor: '#fff',
         borderRadius: 10,
+        padding: 15,
+        marginBottom: 15,
+        alignItems: 'center',
+        width: '90%', // Réduit la largeur
+        alignSelf: 'center', // Centre le conteneur
+        height: 'auto', // Ajuster la hauteur au contenu
+        minHeight: 120, // Hauteur minimale pour éviter un conteneur trop petit
+    },
+    sportName: {
+        fontSize: 22,
+        color: '#333',
+    },
+    sportLevel: {
+        fontSize: 18,
+        color: '#555',
+        marginVertical: 10,
+    },
+    editSection: {
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: 10, // Ajouter un espace en bas pour les boutons
+    },
+    textInput: {
+        borderColor: '#ddd',
+        borderWidth: 1,
+        borderRadius: 5,
+        width: '100%',
+        padding: 10,
+        marginBottom: 10,
     },
     editButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
+    },
+    saveButton: {
+        backgroundColor: '#e8871e',
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+    },
+    cancelButton: {
+        backgroundColor: '#ccc',
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+    },
+    actionsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
         marginTop: 10,
     },
-    picker: {
-        height: 50,
-        width: '100%',
-        marginVertical: 10,
+    deleteButton: {
+        marginRight: 10, // Espacement entre les boutons
+    },
+    editButton: {
+        marginLeft: 10, // Espacement entre les boutons
+    },
+    addSportContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 15,
+        marginTop: 20,
+        width: '90%', // Réduit la largeur
+        alignSelf: 'center', // Centre le conteneur
     },
     label: {
         fontSize: 18,
         color: '#333',
-        marginBottom: 5,
+        marginBottom: 10,
     },
-    textInput: {
-        height: 50,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        marginVertical: 10,
+    picker: {
+        width: '100%',
+        marginBottom: 15,
     },
     addButton: {
         backgroundColor: '#e8871e',
-        padding: 10,
         borderRadius: 5,
+        paddingVertical: 10,
         alignItems: 'center',
-    },
-    saveButton: {
-        backgroundColor: '#007BFF',
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    cancelButton: {
-        backgroundColor: '#f0f0f0',
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    buttonText: {
-        fontSize: 18,
-        color: 'white',
     },
 });

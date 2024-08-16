@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, Alert } from 'react-native';
-import GrayRectangle from "../Components/GreyRectangle";
-import ImageProfile from "../Components/Profile/ImageProfile";
-import BackButton from "../Components/BackButton";
+import { StyleSheet, Text, View, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Montserrat from "../assets/MontSerratFonts";
-import FieldForms from "../Components/FieldForms";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import ButtonRectangle from "../Components/ButtonRectangle";
-import api from "../utils/api";
+import Montserrat from "../../assets/MontSerratFonts";
+import FieldForms from "../FieldForms";
+import ButtonRectangle from "../ButtonRectangle";
+import api from "../../utils/api";
 
-export default function EditPassword({ route }) {
+export default function PasswordChangeForm({ profileId }) {
     const navigation = useNavigation();
-    const { profileId } = route.params;
 
     const fontStyles = Montserrat();
 
@@ -80,16 +75,7 @@ export default function EditPassword({ route }) {
     }
 
     return (
-        <KeyboardAvoidingView behavior={"height"} style={styles.container} keyboardVerticalOffset={-250}>
-            <GrayRectangle>
-                <Text style={[styles.textProfile, { fontFamily: fontStyles.bold }]}>Édition du mot de passe</Text>
-            </GrayRectangle>
-            <ImageProfile />
-            <BackButton style={styles.backButton} color={'#46494c'}>
-                <Icon name={'key-outline'} color={'#46494c'} size={20} />
-                <Text style={[styles.textBack, { fontFamily: fontStyles.medium }]}>Mon compte</Text>
-            </BackButton>
-            <View style={styles.fields}>
+            <View>
                 <FieldForms
                     title={'Mot de passe'}
                     secureTextEntry={true}
@@ -104,11 +90,10 @@ export default function EditPassword({ route }) {
                     onChangeText={(text) => handlePasswordChange('confirmPassword', text)}
                     error={errors.confirmPassword}
                 />
-            </View>
-            <ButtonRectangle style={styles.buttonConfirm} onPress={handleSave}>
-                <Text style={[styles.textConfirm, { fontFamily: fontStyles.bold }]}>Modifier</Text>
-            </ButtonRectangle>
-        </KeyboardAvoidingView>
+                <ButtonRectangle onPress={handleSave} style={styles.button}>
+                    <Text style={[styles.textConfirm, { fontFamily: fontStyles.bold }]}>Modifier</Text>
+                </ButtonRectangle>
+        </View>
     );
 }
 
@@ -119,28 +104,24 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 
-    fields: {
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        width: '80%',
-        height: '40%'
-    },
-
     textProfile: {
         color: 'white',
         fontSize: 23,
     },
 
+    button: {
+        backgroundColor: '#E8871E',
+        height: 50,
+        borderRadius: 5,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: 20,
+        alignSelf: 'center',
+        bottom: '3%'
+    },
     textConfirm: {
         fontSize: 18,
         color: 'white',
-    },
-
-    buttonConfirm: {
-        backgroundColor: '#E8871E',
-        alignSelf: 'center',
-        height: '6%',
-        marginTop: "15%",
     },
 
     textBack: {

@@ -14,7 +14,6 @@ import React, {useEffect, useState} from "react";
 export default function MyProfileScreen() {
     const [profile, setProfile] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentUserId, setCurrentUserId] = useState(null);
     const fontStyles = Montserrat();
     const navigation = useNavigation();
 
@@ -23,9 +22,8 @@ export default function MyProfileScreen() {
     }
 
     useEffect(() => {
-        const currentUserId = async () => {
+        const getProfileDatas = async () => {
             const userId = await AsyncStorage.getItem('userId');
-            setCurrentUserId(userId);
             try {
                 const response = await api.get(`/app/member/profile/${userId}`);
                 setProfile(response.data);  // Assurez-vous que la structure est correcte
@@ -36,8 +34,12 @@ export default function MyProfileScreen() {
                 setLoading(false);
             }
         };
-        currentUserId();
-    }, []);
+        getProfileDatas();
+
+        const refresh = navigation.addListener('focus', () => {
+            getProfileDatas(); // Recharger les événements lorsque l'écran devient actif
+        });
+    }, [navigation]);
 
 
     if (loading) {
@@ -56,7 +58,7 @@ export default function MyProfileScreen() {
                 <BackButton style={styles.backButton}/>
             </GrayRectangle>
             <ImageProfile/>
-            <ProfileInformation profile={profile}/>
+            <ProfileInformation profile={profile} />
             <RoundButton style={styles.moreButton} onPress={goToEditing}>
                 <Icon name={'dots-horizontal'} size={Dimensions.get('window').width * 0.08} color={'black'}/>
             </RoundButton>

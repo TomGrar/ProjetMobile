@@ -1,50 +1,11 @@
 import {Text, View, StyleSheet, ScrollView, FlatList, Alert, ActivityIndicator} from "react-native";
 import Montserrat from "../../assets/MontSerratFonts";
 import Event from "./EventButtonList";
-import React, {useEffect, useState} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "../../utils/api";
+import React from "react";
+i
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
-
-export default function Events() {
+export default function Events({events}) {
     const fontStyles = Montserrat();
-    const [eventsData, setEventsData] = useState([]);
-    const [currentUserId, setCurrentUserId] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const currentUserId = async () => {
-            const userId = await AsyncStorage.getItem('userId');
-            setCurrentUserId(userId);
-            getAPI(userId); // Passer l'ID de l'utilisateur à la fonction getAPI
-        };
-        currentUserId();
-    }, []);
-
-
-    const getAPI = async (userId) => {
-            try {
-                const response = await api.get(`/app/event/all/${userId}`);
-                setEventsData(response.data);
-            } catch (err) {
-                console.error('Erreur lors de la récupération des événements:', err);
-                setError('Une erreur est survenue. Veuillez réessayer.');
-            } finally {
-                setLoading(false);
-            }
-    }
-
-    if (loading) {
-        return <ActivityIndicator size="large" color="#e8871e" />;
-    }
-
 
     if (!fontStyles) {
         return null;
@@ -54,14 +15,11 @@ export default function Events() {
         <View style={styles.container}>
             <Text style={[styles.text, {fontFamily: fontStyles.extraBold}]}>Vos prochains événements</Text>
             <FlatList
-                data={eventsData}
+                data={events}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                 <Event
-                    title={item.title}
-                    sport={item.sport}
-                    city={item.city}
-                    date={formatDate(item.date)}
+                    event={item}
                 />
             )}
                 style={styles.listEvents}

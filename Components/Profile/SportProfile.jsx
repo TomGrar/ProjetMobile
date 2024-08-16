@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet} from "react-native";
+import {Text, View, StyleSheet, ScrollView} from "react-native";
 import Montserrat from "../../assets/MontSerratFonts";
 
 export default function SportProfile({style, sports}){
@@ -13,14 +13,14 @@ export default function SportProfile({style, sports}){
             <View style={styles.splitRectangle}>
                 <Text style={[styles.sportTitle, {fontFamily: fontStyles.extraBold}]}>Sports</Text>
             </View>
-            <View style={styles.listsSport}>
+            <ScrollView style={styles.listsSport}>
                 {sports.map((sport, index) => (
                     <View key={sport.id || index} style={styles.sport}>
                         <Text style={[styles.sportText, {fontFamily: fontStyles.bold}]}>{sport.name}</Text>
                         <Text style={[styles.levelText, {fontFamily: fontStyles.regular}]}>{sport.nbYears} ans</Text>
                     </View>
                 ))}
-            </View>
+            </ScrollView>
         </View>
     )
 }
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         margin: '2%',
         flexDirection: 'column',
         flexWrap: 'nowrap',
-        justifyContent: 'flex-start',
         alignSelf: 'center',
         width: '68%'
     },

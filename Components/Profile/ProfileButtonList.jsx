@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import ImageProfile from "./Profile/ImageProfile";
-import Montserrat from "../assets/MontSerratFonts";
+import ImageProfile from "./ImageProfile";
+import Montserrat from "../../assets/MontSerratFonts";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileButton({ profile }) {
@@ -39,8 +39,8 @@ export default function ProfileButton({ profile }) {
                             style={{
                                 fontFamily: fontStyles.regular,
                                 fontSize: 12,
-                                flexWrap: 'wrap',  // Ensure text wraps
-                                textAlign: 'center', // Center align text for better readability
+                                flexWrap: 'wrap',
+                                textAlign: 'center',
                             }}
                         >
                             {sport.name} - {sport.nbYears}
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 99999,
         borderBottomRightRadius: 20000,
         borderTopRightRadius: 20000,
-        paddingHorizontal: 10, // Added padding to avoid clipping
     },
     column: {
         flexDirection: 'column',

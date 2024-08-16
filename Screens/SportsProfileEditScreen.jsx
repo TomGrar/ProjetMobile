@@ -5,7 +5,7 @@ import BackButton from "../Components/BackButton";
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import React, {useState} from "react";
-import SportDropDown from "../Components/Profile/editProfile/SportsDropDownProfiles";
+import SportDropDown from "../Components/Profile/SportsDropDownProfiles";
 
 export default function EditSports({route}) {
     const {profileId} = route.params;
@@ -35,32 +35,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f6f7fb',
         alignItems: "center",
-        width: '100%'
     },
 
-    fields: {
-        alignItems: 'center',
-        justifyContent:'space-evenly',
-        width: '80%',
-        height: '40%'
-    },
 
     textProfile:{
         color: 'white',
         fontSize: 23,
     },
 
-    textConfirm:{
-        fontSize: 18,
-        color: 'white',
-    },
-
-    buttonConfirm:{
-        backgroundColor: '#E8871E',
-        alignSelf: 'center',
-        height: '6%',
-        marginTop: "15%",
-    },
 
     textBack:{
         fontSize: 15,

@@ -13,6 +13,10 @@ export default function ProfileScreen({route}) {
     const {profile} = route.params;
     const navigation = useNavigation();
 
+    const goEventScreenInvitation = () => {
+        navigation.navigate('EventInvitation', { profileId: profile.id });
+    };
+
     const fontStyles = Montserrat();
 
     if (!fontStyles) {
@@ -27,7 +31,7 @@ export default function ProfileScreen({route}) {
             </GrayRectangle>
             <ImageProfile/>
             <ProfileInformation profile={profile}/>
-            <ButtonRectangle style={styles.buttonConfirm}>
+            <ButtonRectangle style={styles.button} onPress={goEventScreenInvitation}>
                 <Icon name={'plus-thick'} color={'white'} size={25}/>
                 <Text style={[styles.textConfirm, {fontFamily: fontStyles.bold}]}>Inviter à un événement</Text>
             </ButtonRectangle>
@@ -57,14 +61,18 @@ const styles = StyleSheet.create({
         left: '5%'
     },
 
-    textConfirm:{
+    button: {
+        backgroundColor: '#E8871E',
+        height: 50,
+        borderRadius: 5,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: 20,
+        alignSelf: 'center',
+        bottom: '10%'
+    },
+    textConfirm: {
         fontSize: 18,
         color: 'white',
-    },
-
-    buttonConfirm:{
-        backgroundColor: '#E8871E',
-        alignSelf: 'center',
-        height: '6%',
     },
 })

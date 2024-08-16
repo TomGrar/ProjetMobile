@@ -18,6 +18,10 @@ export default function Login() {
         setPassword("");
     };
 
+    function goToRegisterScreen() {
+        navigation.navigate('Register');
+    }
+
 
     const handleLogin = async () => {
         try {
@@ -33,13 +37,23 @@ export default function Login() {
             }
         } catch (error) {
             console.error(error);
-            if (error.response.status === 401) {
-                Alert.alert('Erreur', 'Identifiants incorrects');
-            } else if (error.response.status === 400) {
-                Alert.alert('Erreur', 'Email et mot de passe requis');
+
+            if (error.response) {
+                // Si l'erreur a une réponse associée
+                if (error.response.status === 401) {
+                    Alert.alert('Erreur', 'Identifiants incorrects');
+                } else if (error.response.status === 400) {
+                    Alert.alert('Erreur', 'Email et mot de passe requis');
+                } else {
+                    Alert.alert('Erreur', 'Une erreur est survenue, veuillez réessayer plus tard.');
+                }
+            } else {
+                // Si l'erreur n'a pas de réponse (erreur réseau, etc.)
+                Alert.alert('Erreur', 'Impossible de se connecter au serveur. Vérifiez votre connexion internet.');
             }
         }
-    }
+    };
+
 
     return (
         <View>
@@ -70,7 +84,7 @@ export default function Login() {
                 <TouchableOpacity style={styles.buttonLogin} onPress={handleLogin}>
                     <Text style={styles.buttonTextLogin}>Connexion</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={goToRegisterScreen}>
                     <Text style={styles.textRegister}>Créer un compte</Text>
                 </TouchableOpacity>
             </View>

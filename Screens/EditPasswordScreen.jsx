@@ -1,20 +1,16 @@
-import {
-    KeyboardAvoidingView, Platform, ScrollView,
-    StyleSheet,
-    Text
-} from 'react-native';
+import React from 'react';
+import {KeyboardAvoidingView, StyleSheet, Text, View, Alert, Platform, ScrollView} from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
-import ImageProfile from "../Components/Profile/ImageProfile";
 import BackButton from "../Components/BackButton";
 import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import React from "react";
-import ProfileEditForm from "../Components/Profile/ProfileEditForm";
-import RegisterForm from "../Components/Profile/RegisterForm";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import PasswordChangeForm from "../Components/Profile/PasswordChangeForm";
 
-export default function EditMainInformationScreen({route}) {
-    const {profile} = route.params;
+export default function EditPasswordScreen({ route }) {
+    const navigation = useNavigation();
+    const { profileId } = route.params;
+
     const fontStyles = Montserrat();
 
     if (!fontStyles) {
@@ -24,14 +20,14 @@ export default function EditMainInformationScreen({route}) {
     return (
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GrayRectangle>
-                <Text style={[styles.textProfile, {fontFamily: fontStyles.bold}]}>Edition du profile</Text>
+                <Text style={[styles.textProfile, { fontFamily: fontStyles.bold }]}>Édition du mot de passe</Text>
             </GrayRectangle>
             <BackButton style={styles.backButton} color={'#46494c'}>
-                <Icon name={'account-details-outline'} color={'#46494c'} size={20}/>
-                <Text style={[styles.textBack,{fontFamily: fontStyles.medium}]}>Mes informations</Text>
+                <Icon name={'key-outline'} color={'#46494c'} size={20} />
+                <Text style={[styles.textBack, { fontFamily: fontStyles.medium }]}>Mon compte</Text>
             </BackButton>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <ProfileEditForm profile={profile}/>
+                <PasswordChangeForm profileId = {profileId}/>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -46,27 +42,26 @@ const styles = StyleSheet.create({
         padding: 20,
     },
 
-    textProfile:{
+    textProfile: {
         color: 'white',
         fontSize: 23,
     },
 
-    textConfirm:{
+    textConfirm: {
         fontSize: 18,
         color: 'white',
     },
 
-    textBack:{
+    textBack: {
         fontSize: 15,
     },
 
-    backButton:{
-        position : 'relative',
+    backButton: {
+        position: 'relative',
         alignSelf: 'flex-start',
-        width: '53%',
+        width: '45%',
         marginTop: '7%',
         justifyContent: 'space-between',
-        paddingLeft:"2%"
-    },
-
-})
+        paddingLeft: "2%"
+    }
+});

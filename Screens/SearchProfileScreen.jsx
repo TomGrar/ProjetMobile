@@ -6,12 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 import Montserrat from '../assets/MontSerratFonts';
 import FieldForms from "../Components/FieldForms";
 import {Picker} from "@react-native-picker/picker";
-import ProfileButton from "../Components/ProfileButtonList";
+import ProfileButton from "../Components/Profile/ProfileButtonList";
 import api from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SearchProfileScreen() {
-    const navigation = useNavigation();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedSport, setSelectedSport] = useState('');
     const [profilesData, setProfilesData] = useState([]);

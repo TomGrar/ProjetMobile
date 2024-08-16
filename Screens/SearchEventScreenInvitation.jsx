@@ -1,16 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TextInput, FlatList, KeyboardAvoidingView} from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    FlatList,
+    KeyboardAvoidingView,
+    Dimensions,
+    TouchableOpacity, Alert
+} from 'react-native';
 import GrayRectangle from '../Components/GreyRectangle';
 import BackButton from '../Components/BackButton';
-import { useNavigation } from '@react-navigation/native';
 import Montserrat from '../assets/MontSerratFonts';
-import Event from '../Components/Home/EventButtonList';
 import FieldForms from "../Components/FieldForms";
 import {Picker} from "@react-native-picker/picker";
 import api from "../utils/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function SearchEventScreen() {
-    const navigation = useNavigation();
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+export default function SearchEventScreenInvitation({route}) {
+    const {profileId} = route.params;
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedSport, setSelectedSport] = useState('');
     const [selectedLocality, setSelectedLocality] = useState('');
@@ -24,8 +40,9 @@ export default function SearchEventScreen() {
 
     const getAPI = async () => {
         try {
-            const response = await api.get(`/app/event/all`);
-            setEventsData(response.data);
+            const userId = await AsyncStorage.getItem('userId');
+            const response = await api.get(`/app/event/all/${userId}`);
+            setEventsData(response.data.filter(event => event.creatorid !== profileId));
 
             // Extraire les sports uniques
             const uniqueSports = new Set(response.data.map(event => event.sport));
@@ -34,10 +51,24 @@ export default function SearchEventScreen() {
             // Extraire les localités uniques
             const uniqueLocalities = new Set(response.data.map(event => event.city));
             setLocalities([...uniqueLocalities]);
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données :", error);
-        }
+        } catch (error) {}
     }
+
+    const handleInvitation = async (eventId) => {
+        try {
+            await api.post('/app/appointment/register', {
+                memberId: profileId,
+                eventId
+            });
+            Alert.alert('Succès', 'Invitation envoyée avec succès.');
+        } catch (error) {
+            if (error.response && error.response.status === 409) {
+                Alert.alert('Conflit', 'Ce membre est déjà inscrit à cet événement.');
+            } else {
+                Alert.alert('Erreur', 'Une erreur est survenue lors de l\'envoi de l\'invitation. Veuillez réessayer.');
+            }
+        }
+    };
 
     const filteredEvents = eventsData.filter(
         (event) =>
@@ -59,7 +90,7 @@ export default function SearchEventScreen() {
             behavior={"height"} style={styles.container} keyboardVerticalOffset={-250}>
             <GrayRectangle>
                 <Text style={[styles.textTitle, { fontFamily: fontStyles.bold }]}>
-                    Chercher un événement
+                    Inviter à un événement
                 </Text>
                 <BackButton style={styles.backButton}/>
             </GrayRectangle>
@@ -78,7 +109,7 @@ export default function SearchEventScreen() {
                     <Picker.Item label="Sport" value={''} style={{ color: 'gray', fontSize: 17}}/>
                     {sports.map((sport, index) =>(
                         <Picker.Item key={index} label={sport} value={sport}/>
-                ))}
+                    ))}
                 </Picker>
                 <Picker
                     selectedValue={selectedLocality}
@@ -90,13 +121,20 @@ export default function SearchEventScreen() {
                         <Picker.Item key={index} label={locality} value={locality}/>
                     ))}
                 </Picker>
-        </View>
+            </View>
             <FlatList
                 data={filteredEvents}
-                renderItem={({ item }) => (
-                    <Event
-                        event={item}
-                    />
+                renderItem={({item}) => (
+                    <TouchableOpacity style={styles.containerButton}  onPress={() => handleInvitation(item.id)}>
+                        <View style={[styles.columnButton]}>
+                            <Text style={{ textAlign:'center', width: '80%', fontFamily: fontStyles.bold}}>{item.name}</Text>
+                            <Text style={{ fontFamily: fontStyles.medium}}>{item.sport}</Text>
+                        </View>
+                        <View style={[styles.columnButton, {flex: 1}]}>
+                            <Text style={{ fontFamily: fontStyles.medium}}>{item.city}</Text>
+                            <Text style={{ fontFamily: fontStyles.regular}}>{formatDate(item.date)}</Text>
+                        </View>
+                    </TouchableOpacity>
                 )}
                 style={styles.listEvents}
             />
@@ -135,5 +173,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '90%'
-    }
+    },
+
+    containerButton: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        height: 100,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: '2%',
+        marginBottom: '2%'
+    },
+    columnButton: {
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        width: '60%'
+    },
 });

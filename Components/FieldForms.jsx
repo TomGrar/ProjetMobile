@@ -29,7 +29,6 @@ export default function FieldForms({title, style, multiline, numberOfLines, edit
 const styles = StyleSheet.create({
     container:{
         flexDirection: 'column',
-        width: '100%',
         marginBottom: '10%'
     },
 

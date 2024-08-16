@@ -17,7 +17,7 @@ export default function ProfileInformation({profile}){
             <MainInfoProfile  profile={profile}/>
             <Text style={[styles.bio,{fontFamily: fontStyles.medium}]}>{profile.description}</Text>
             <ContactProfile  email={profile.mail}/>
-            <SportProfile style={{height:  '25%'}} sports={profile.sports}/>
+            <SportProfile style={{height:  '35%'}} sports={profile.sports}/>
         </View>
     )
 }

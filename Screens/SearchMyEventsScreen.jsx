@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TextInput, FlatList, KeyboardAvoidingView} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, FlatList, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import GrayRectangle from '../Components/GreyRectangle';
 import BackButton from '../Components/BackButton';
 import { useNavigation } from '@react-navigation/native';
 import Montserrat from '../assets/MontSerratFonts';
 import Event from '../Components/Home/EventButtonList';
 import FieldForms from "../Components/FieldForms";
-import {Picker} from "@react-native-picker/picker";
+import { Picker } from "@react-native-picker/picker";
 import api from "../utils/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SearchEventScreen() {
     const navigation = useNavigation();
@@ -24,7 +25,8 @@ export default function SearchEventScreen() {
 
     const getAPI = async () => {
         try {
-            const response = await api.get(`/app/event/all`);
+            const creatorId = await AsyncStorage.getItem('userId');
+            const response = await api.get(`/app/event/allMyEvents/${creatorId}`);
             setEventsData(response.data);
 
             // Extraire les sports uniques
@@ -34,9 +36,7 @@ export default function SearchEventScreen() {
             // Extraire les localités uniques
             const uniqueLocalities = new Set(response.data.map(event => event.city));
             setLocalities([...uniqueLocalities]);
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données :", error);
-        }
+        } catch (error) {}
     }
 
     const filteredEvents = eventsData.filter(
@@ -54,14 +54,18 @@ export default function SearchEventScreen() {
         return null;
     }
 
+    const goToCreateEvent = () => {
+        navigation.navigate('CreateEvent');
+    };
+
     return (
         <KeyboardAvoidingView
             behavior={"height"} style={styles.container} keyboardVerticalOffset={-250}>
             <GrayRectangle>
                 <Text style={[styles.textTitle, { fontFamily: fontStyles.bold }]}>
-                    Chercher un événement
+                    Vos événements
                 </Text>
-                <BackButton style={styles.backButton}/>
+                <BackButton style={styles.backButton} />
             </GrayRectangle>
             <FieldForms
                 style={styles.searchInput}
@@ -72,25 +76,25 @@ export default function SearchEventScreen() {
             <View style={styles.containerPicker}>
                 <Picker
                     selectedValue={selectedSport}
-                    onValueChange={(itemValue)=> {setSelectedSport(itemValue)}}
+                    onValueChange={(itemValue) => { setSelectedSport(itemValue) }}
                     mode={'dialog'}
                     style={styles.picker}>
-                    <Picker.Item label="Sport" value={''} style={{ color: 'gray', fontSize: 17}}/>
-                    {sports.map((sport, index) =>(
-                        <Picker.Item key={index} label={sport} value={sport}/>
-                ))}
+                    <Picker.Item label="Sport" value={''} style={{ color: 'gray', fontSize: 17 }} />
+                    {sports.map((sport, index) => (
+                        <Picker.Item key={index} label={sport} value={sport} />
+                    ))}
                 </Picker>
                 <Picker
                     selectedValue={selectedLocality}
-                    onValueChange={(itemValue)=> {setSelectedLocality(itemValue)}}
+                    onValueChange={(itemValue) => { setSelectedLocality(itemValue) }}
                     mode={'dialog'}
                     style={styles.picker}>
-                    <Picker.Item label="Localité" value={''} style={{ color: 'gray', fontSize: 17}}/>
-                    {localities.map((locality, index) =>(
-                        <Picker.Item key={index} label={locality} value={locality}/>
+                    <Picker.Item label="Localité" value={''} style={{ color: 'gray', fontSize: 17 }} />
+                    {localities.map((locality, index) => (
+                        <Picker.Item key={index} label={locality} value={locality} />
                     ))}
                 </Picker>
-        </View>
+            </View>
             <FlatList
                 data={filteredEvents}
                 renderItem={({ item }) => (
@@ -100,6 +104,9 @@ export default function SearchEventScreen() {
                 )}
                 style={styles.listEvents}
             />
+            <TouchableOpacity style={styles.createButton} onPress={goToCreateEvent}>
+                <Text style={[styles.createButtonText, {fontFamily: fontStyles.bold}]}>Créer un nouvel événement</Text>
+            </TouchableOpacity>
         </KeyboardAvoidingView>
     );
 }
@@ -108,7 +115,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f6f7fb',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     textTitle: {
         color: 'white',
@@ -119,21 +126,34 @@ const styles = StyleSheet.create({
     },
     searchInput: {
         width: '90%',
-        marginBottom: '0%'
+        marginBottom: '0%',
     },
     listEvents: {
         width: '85%',
         marginTop: '3%',
         maxHeight: '60%',
     },
-    picker:{
+    picker: {
         backgroundColor: 'white',
         marginTop: "3%",
         width: '45%',
     },
-    containerPicker:{
+    containerPicker: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        width: '90%'
-    }
+        width: '90%',
+    },
+    createButton: {
+        backgroundColor: '#E8871E',
+        height: 50,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '85%',
+        marginBottom: 20,
+    },
+    createButtonText: {
+        fontSize: 18,
+        color: 'white',
+    },
 });

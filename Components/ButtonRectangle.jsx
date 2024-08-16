@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet,TouchableOpacity,} from 'react-native';
 import Montserrat from "../assets/MontSerratFonts";
 
 export default function ButtonRectangle({children, onPress, style}) {

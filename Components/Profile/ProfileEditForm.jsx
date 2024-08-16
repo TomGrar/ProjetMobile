@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {ScrollView, Pressable, Text, StyleSheet, Platform, View, Alert} from "react-native";
-import FieldForms from "../../FieldForms";
-import Montserrat from "../../../assets/MontSerratFonts";
+import {ScrollView, Pressable, Text, StyleSheet, Platform, View, Alert, KeyboardAvoidingView} from "react-native";
+import FieldForms from "../FieldForms";
+import Montserrat from "../../assets/MontSerratFonts";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import RadioButtonGender from "./RadioButtonsGender";
 import { useNavigation } from '@react-navigation/native';
-import api from "../../../utils/api";
+import api from "../../utils/api";
+import ButtonRectangle from "../ButtonRectangle";
 
-export default function ProfileForm({ profile }) {
+export default function ProfileEditForm({ profile }) {
     const navigation = useNavigation();
     const [showPicker, setShowPicker] = useState(false);
     const [birthday, setBirthday] = useState(new Date(profile.birthday || Date.now()));
 
-    // Convert API gender value to component's expected value
     const initialGender = profile.gender === "masculin" ? "male" : profile.gender === "féminin" ? "female" : "other";
 
     const [profileState, setProfileState] = useState({
@@ -72,11 +72,10 @@ export default function ProfileForm({ profile }) {
             try {
                 const response = await api.patch(`/app/member/updateProfile`, {
                     ...profileState,
-                    // Convert the gender back to the format expected by the API
                     gender: profileState.gender === "male" ? "masculin" : profileState.gender === "female" ? "féminin" : "autre"
                 });
                 if (response.status === 200) {
-                    Alert.alert('Succès', 'Votre profil a été mis à jour avec succès.', [{ text: 'OK' , onPress: () => navigation.navigate('Home')}]);
+                    Alert.alert('Succès', 'Votre profil a été mis à jour avec succès.', [{ text: 'OK' , onPress: () => navigation.navigate('MyProfile')}]);
                 } else {
                     Alert.alert('Erreur', 'Une erreur est survenue lors de la mise à jour du profil. Veuillez réessayer.', [{ text: 'OK' }]);
                 }
@@ -107,7 +106,7 @@ export default function ProfileForm({ profile }) {
     }
 
     return (
-        <ScrollView style={styles.fields}>
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <FieldForms
                 title={"Prénom"}
                 value={profileState.firstname || ''}
@@ -185,33 +184,30 @@ export default function ProfileForm({ profile }) {
                 onChangeText={(text) => handleChange('postalcode', text)}
                 error={errors.postalcode}
             />
-            <Pressable onPress={handleSave} style={styles.saveButton}>
-                <Text style={styles.saveButtonText}>Sauvegarder</Text>
-            </Pressable>
-        </ScrollView>
+            <ButtonRectangle onPress={handleSave} style={styles.button}>
+                <Text style={[styles.buttonText, { fontFamily: fontStyles.bold }]}>S'inscrire</Text>
+            </ButtonRectangle>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
-    fields: {
-        width: "80%",
-        maxHeight: "60%",
-        marginTop: "5%",
-    },
     fieldComponent: {
         alignSelf: "center",
         marginBottom: "10%",
     },
-    saveButton: {
-        backgroundColor: "#007BFF",
-        padding: 10,
+    button: {
+        backgroundColor: '#E8871E',
+        height: 50,
         borderRadius: 5,
-        alignItems: "center",
-        marginVertical: 20,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: 20,
+        alignSelf: 'center',
+        bottom: '3%'
     },
-    saveButtonText: {
-        color: "#FFFFFF",
-        fontSize: 16,
-        fontWeight: "bold",
+    buttonText: {
+        fontSize: 18,
+        color: 'white',
     },
 });
