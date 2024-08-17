@@ -13,11 +13,8 @@ export default function ProfileEditForm({ profile }) {
     const [showPicker, setShowPicker] = useState(false);
     const [birthday, setBirthday] = useState(new Date(profile.birthday || Date.now()));
 
-    const initialGender = profile.gender === "masculin" ? "male" : profile.gender === "féminin" ? "female" : "other";
-
     const [profileState, setProfileState] = useState({
         ...profile,
-        gender: initialGender
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -25,7 +22,6 @@ export default function ProfileEditForm({ profile }) {
     useEffect(() => {
         setProfileState({
             ...profile,
-            gender: initialGender
         });
     }, [profile]);
 
@@ -72,7 +68,6 @@ export default function ProfileEditForm({ profile }) {
             try {
                 const response = await api.patch(`/app/member/updateProfile`, {
                     ...profileState,
-                    gender: profileState.gender === "male" ? "masculin" : profileState.gender === "female" ? "féminin" : "autre"
                 });
                 if (response.status === 200) {
                     Alert.alert('Succès', 'Votre profil a été mis à jour avec succès.', [{ text: 'OK' , onPress: () => navigation.navigate('MyProfile')}]);
@@ -96,6 +91,12 @@ export default function ProfileEditForm({ profile }) {
         if (!profile.street) newErrors.street = "Rue est requise.";
         if (!profile.streetnumber || isNaN(profile.streetnumber)) newErrors.streetnumber = "Numéro de rue est requis et doit être un nombre.";
         if (!profile.postalcode || isNaN(profile.postalcode)) newErrors.postalcode = "Code postal est requis et doit être un nombre.";
+
+        // Validation des informations d'adresse
+        if (!profile.street) newErrors.street = "Rue est requise.";
+        if (!profile.streetnumber) newErrors.streetnumber = "Numéro est requis.";
+        if (!profile.city) newErrors.city = "Localité est requise.";
+        if (!profile.postalcode) newErrors.postalcode = "Code postal est requis.";
         return newErrors;
     }
 
@@ -185,7 +186,7 @@ export default function ProfileEditForm({ profile }) {
                 error={errors.postalcode}
             />
             <ButtonRectangle onPress={handleSave} style={styles.button}>
-                <Text style={[styles.buttonText, { fontFamily: fontStyles.bold }]}>S'inscrire</Text>
+                <Text style={[styles.buttonText, { fontFamily: fontStyles.bold }]}>Sauvegarder</Text>
             </ButtonRectangle>
         </KeyboardAvoidingView>
     );

@@ -13,7 +13,7 @@ import Montserrat from '../assets/MontSerratFonts';
 import FieldForms from "../Components/FieldForms";
 import {Picker} from "@react-native-picker/picker";
 import api from "../utils/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useSelector} from "react-redux";
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -31,6 +31,7 @@ export default function SearchEventScreenInvitation({route}) {
     const [eventsData, setEventsData] = useState([]);
     const [sports, setSports] = useState([]);
     const [localities, setLocalities] = useState([]);
+    const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
         getAPI();
@@ -38,7 +39,6 @@ export default function SearchEventScreenInvitation({route}) {
 
     const getAPI = async () => {
         try {
-            const userId = await AsyncStorage.getItem('userId');
             const response = await api.get(`/app/event/all/${userId}`);
             setEventsData(response.data.filter(event => event.creatorid !== profileId));
 

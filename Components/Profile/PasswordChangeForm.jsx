@@ -5,8 +5,9 @@ import Montserrat from "../../assets/MontSerratFonts";
 import FieldForms from "../FieldForms";
 import ButtonRectangle from "../ButtonRectangle";
 import api from "../../utils/api";
+import {useSelector} from "react-redux";
 
-export default function PasswordChangeForm({ profileId }) {
+export default function PasswordChangeForm() {
     const navigation = useNavigation();
 
     const fontStyles = Montserrat();
@@ -14,6 +15,8 @@ export default function PasswordChangeForm({ profileId }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
+
+    const userId = useSelector((state) => state.user.userId);
 
     // Fonction pour gérer les modifications des champs de texte
     function handlePasswordChange(field, value) {
@@ -52,7 +55,7 @@ export default function PasswordChangeForm({ profileId }) {
             // Préparez ici votre appel API pour mettre à jour le mot de passe
             try {
                 const response = await api.patch(`/app/member/updatePassword`, {
-                    id: profileId,
+                    id: userId,
                     password: password
                 });
 

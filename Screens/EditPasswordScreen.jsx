@@ -1,14 +1,11 @@
 import {KeyboardAvoidingView, StyleSheet, Text, View, Alert, Platform, ScrollView} from 'react-native';
 import GrayRectangle from "../Components/GreyRectangle";
 import BackButton from "../Components/BackButton";
-import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PasswordChangeForm from "../Components/Profile/PasswordChangeForm";
 
-export default function EditPasswordScreen({ route }) {
-    const navigation = useNavigation();
-    const { profileId } = route.params;
+export default function EditPasswordScreen() {
 
     const fontStyles = Montserrat();
 
@@ -26,7 +23,7 @@ export default function EditPasswordScreen({ route }) {
                 <Text style={[styles.textBack, { fontFamily: fontStyles.medium }]}>Mon compte</Text>
             </BackButton>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <PasswordChangeForm profileId = {profileId}/>
+                <PasswordChangeForm/>
             </ScrollView>
         </KeyboardAvoidingView>
     );

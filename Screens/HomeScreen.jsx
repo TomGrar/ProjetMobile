@@ -8,17 +8,17 @@ import RoundButton from "../Components/RoundButton";
 import { useNavigation } from '@react-navigation/native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import api from "../utils/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useSelector} from "react-redux";
 
 export default function HomeScreen() {
     const navigation = useNavigation();
     const [eventsData, setEventsData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
         const getEventsData = async () => {
             try {
-                const userId = await AsyncStorage.getItem('userId');
                 const response = await api.get(`/app/event/all/${userId}`);
                 setEventsData(response.data);
             } finally {

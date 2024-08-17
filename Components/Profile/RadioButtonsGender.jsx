@@ -17,27 +17,27 @@ export default function RadioButtonGender({style, genderProfile, onChangeGender}
                 <Icon name={'mars'} color={'#e8871e'} size={30}/>
                 <RadioButton
                     color={'#e8871e'}
-                    value={"male"}
-                    status={profilGender === 'male' ? 'checked':'unchecked'}
-                    onPress={() => handlePress('male')}
+                    value={"masculin"}
+                    status={profilGender === 'masculin' ? 'checked':'unchecked'}
+                    onPress={() => handlePress('masculin')}
                 />
             </View>
             <View style={styles.gender}>
                 <Icon name={'venus'} color={'#e8871e'} size={30}/>
                 <RadioButton
                     color={'#e8871e'}
-                    value={"female"}
-                    status={profilGender === 'female' ? 'checked':'unchecked'}
-                    onPress={() => handlePress('female')}
+                    value={"féminin"}
+                    status={profilGender === 'féminin' ? 'checked':'unchecked'}
+                    onPress={() => handlePress('féminin')}
                 />
             </View>
             <View style={styles.gender}>
                 <Icon name={'genderless'} color={'#e8871e'} size={30}/>
                 <RadioButton
                     color={'#e8871e'}
-                    value={"other"}
-                    status={profilGender === 'other' ? 'checked':'unchecked'}
-                    onPress={() => handlePress('other')}
+                    value={"autre"}
+                    status={profilGender === 'autre' ? 'checked':'unchecked'}
+                    onPress={() => handlePress('autre')}
                 />
             </View>
         </View>

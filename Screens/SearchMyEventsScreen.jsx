@@ -8,7 +8,7 @@ import Event from '../Components/Home/EventButtonList';
 import FieldForms from "../Components/FieldForms";
 import { Picker } from "@react-native-picker/picker";
 import api from "../utils/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useSelector} from "react-redux";
 
 export default function SearchEventScreen() {
     const navigation = useNavigation();
@@ -18,6 +18,7 @@ export default function SearchEventScreen() {
     const [eventsData, setEventsData] = useState([]);
     const [sports, setSports] = useState([]);
     const [localities, setLocalities] = useState([]);
+    const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
         getAPI();
@@ -25,8 +26,7 @@ export default function SearchEventScreen() {
 
     const getAPI = async () => {
         try {
-            const creatorId = await AsyncStorage.getItem('userId');
-            const response = await api.get(`/app/event/allMyEvents/${creatorId}`);
+            const response = await api.get(`/app/event/allMyEvents/${userId}`);
             setEventsData(response.data);
 
             // Extraire les sports uniques

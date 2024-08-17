@@ -7,7 +7,7 @@ import FieldForms from "../Components/FieldForms";
 import {Picker} from "@react-native-picker/picker";
 import ProfileButton from "../Components/Profile/ProfileButtonList";
 import api from "../utils/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useSelector} from "react-redux";
 
 export default function SearchProfileScreen() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -15,8 +15,8 @@ export default function SearchProfileScreen() {
     const [profilesData, setProfilesData] = useState([]);
     const [sports, setSports] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentUserId, setCurrentUserId] = useState(null);
     const fontStyles = Montserrat();
+    const userId = useSelector((state) => state.user.userId);
 
     const filteredProfiles = (profilesData || []).filter((profile) => {
         const sportFilter =
@@ -33,9 +33,7 @@ export default function SearchProfileScreen() {
     });
 
     useEffect(() => {
-        const currentUserId = async () => {
-            const userId = await AsyncStorage.getItem('userId');
-            setCurrentUserId(userId);
+        const getEvents = async () => {
             try {
                 const response = await api.get(`/app/member/all/${userId}`);
                 setProfilesData(response.data);
@@ -50,7 +48,7 @@ export default function SearchProfileScreen() {
                 setLoading(false);
             }
         };
-        currentUserId();
+        getEvents();
     }, []);
 
 

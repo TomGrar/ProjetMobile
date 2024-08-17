@@ -8,7 +8,7 @@ import ButtonRectangle from "../Components/ButtonRectangle";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ProfileButton from "../Components/Profile/ProfileButtonList";
 import api from "../utils/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useSelector} from "react-redux";
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -26,18 +26,16 @@ export default function EventInformation({ route }) {
     const [loading, setLoading] = useState(true);
     const [currentUserId, setCurrentUserId] = useState(null);
     const fontStyles = Montserrat();
+    const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
         const getEventData = async () => {
             try {
-                const userId = await AsyncStorage.getItem('userId');
                 setCurrentUserId(Number(userId));
 
-                // Fetch participants
                 const participantsResponse = await api.get(`/app/member/allParticipants/${event.id}`);
                 setParticipants(participantsResponse.data);
 
-                // Fetch creator
                 const creatorResponse = await api.get(`/app/member/profile/${event.creatorid}`);
                 setCreator(creatorResponse.data);
             } catch (error) {

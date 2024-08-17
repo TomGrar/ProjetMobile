@@ -1,6 +1,7 @@
 import {Text, View, StyleSheet, Dimensions} from "react-native";
 import Montserrat from "../../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+
 export default function MainInfoProfile({style, profile}){
     const fontStyles = Montserrat();
 

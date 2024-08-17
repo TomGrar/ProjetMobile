@@ -41,9 +41,9 @@ export default function RegisterForm() {
     useEffect(() => {
         async function fetchSports() {
             try {
-                const response = await api.get("/app/sport/all"); // Adaptez l'URL selon votre API
+                const response = await api.get("/app/sport/all");
                 if (response.status === 200) {
-                    setSports(response.data); // Mettez à jour l'état des sports
+                    setSports(response.data);
                 } else {
                     Alert.alert('Erreur', 'Impossible de charger la liste des sports.');
                 }
@@ -106,7 +106,6 @@ export default function RegisterForm() {
             try {
                 const dataToSend = {
                     ...formData,
-                    gender: formData.gender === "male" ? "masculin" : formData.gender === "female" ? "féminin" : "autre",
                     sport: selectedSport,
                     sportLevel: parseInt(sportLevel, 10)
                 };

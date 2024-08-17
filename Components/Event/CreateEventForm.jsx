@@ -8,6 +8,7 @@ import api from "../../utils/api";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Picker} from "@react-native-picker/picker";
+import {useSelector} from "react-redux";
 
 export default function CreateEventForm() {
     const fontStyles = Montserrat();
@@ -15,6 +16,7 @@ export default function CreateEventForm() {
     const [sports, setSports] = useState([]);
     const [showPicker, setShowPicker] = useState(false);
     const [eventDate, setEventDate] = useState(new Date());
+    const userId = useSelector((state) => state.user.userId);
 
     const [eventState, setEventState] = useState({
         name: "",
@@ -111,6 +113,9 @@ export default function CreateEventForm() {
         if (!event.city) newErrors.city = "Ville est requise.";
         if (!event.date) newErrors.date = "Date de l'événement est requise.";
         if (!event.description) newErrors.description = "Description est requise.";
+        if (!event.street) newErrors.street = "Rue est requise.";
+        if (!event.number) newErrors.streetnumber = "Numéro est requis.";
+        if (!event.postalcode) newErrors.postalcode = "Code postal est requis.";
         return newErrors;
     }
 
@@ -176,11 +181,13 @@ export default function CreateEventForm() {
                 style={styles.fieldHalfWidth}
                 value={(eventState.postalcode || '').toString()}
                 onChangeText={(text) => handleChange('postalcode', text)}
+                error={errors.postalcode}
             />
             <FieldForms
                 title={"Rue"}
                 value={eventState.street || ''}
                 onChangeText={(text) => handleChange('street', text)}
+                error={errors.street}
             />
             <FieldForms
                 title={"Numéro de Rue"}
@@ -188,11 +195,13 @@ export default function CreateEventForm() {
                 style={styles.fieldHalfWidth}
                 value={(eventState.number || '').toString()}
                 onChangeText={(text) => handleChange('number', text)}
+                error={errors.streetnumber}
             />
             <FieldForms
                 title={"Pays"}
                 value={eventState.country || ''}
                 onChangeText={(text) => handleChange('country', text)}
+                error={errors.country}
             />
             <ButtonRectangle onPress={handleSave} style={styles.button}>
                 <Text style={[styles.textConfirm, { fontFamily: fontStyles.bold }]}>Créer</Text>

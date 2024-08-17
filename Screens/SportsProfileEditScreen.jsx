@@ -6,8 +6,7 @@ import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import SportDropDown from "../Components/Profile/SportsDropDownProfiles";
 
-export default function EditSports({route}) {
-    const {profileId} = route.params;
+export default function EditSports() {
     const fontStyles = Montserrat();
 
     if (!fontStyles) {
@@ -24,7 +23,7 @@ export default function EditSports({route}) {
                 <Icon name={'key-outline'} color={'#46494c'} size={20}/>
                 <Text style={[styles.textBack,{fontFamily: fontStyles.medium}]}>Mes sports</Text>
             </BackButton>
-            <SportDropDown profileId={profileId}/>
+            <SportDropDown/>
         </View>
     );
 }

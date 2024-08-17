@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Image} from 'react-native';
+
 export default function ImageProfile ({ source, style}) {
     const defaultSource = require('../../assets/ImageProfileDefault.png');
     return (

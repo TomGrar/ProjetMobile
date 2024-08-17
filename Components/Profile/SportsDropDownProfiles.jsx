@@ -4,24 +4,26 @@ import api from "../../utils/api";
 import Montserrat from "../../assets/MontSerratFonts";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Picker } from '@react-native-picker/picker';
+import {useSelector} from "react-redux";
 
-export default function SportDropDown({ profileId }) {
+export default function SportDropDown() {
     const [sports, setSports] = useState([]);
     const [sportLists, setSportLists] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedSportId, setSelectedSportId] = useState(null);
-    const [newSportLevel, setNewSportLevel] = useState(""); // Champ de texte pour le niveau du sport
-    const [editSportId, setEditSportId] = useState(null); // ID du sport en cours de modification
-    const [editSportLevel, setEditSportLevel] = useState(""); // Nouveau niveau du sport en cours de modification
-    const fontStyles = Montserrat(); // Utilisation de la police Montserrat
+    const [newSportLevel, setNewSportLevel] = useState("");
+    const [editSportId, setEditSportId] = useState(null);
+    const [editSportLevel, setEditSportLevel] = useState("");
+    const fontStyles = Montserrat();
+    const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
-        const fetchSportsAndUserSports = async () => {
+        const getSportsAndUserSports = async () => {
             try {
                 const sportsResponse = await api.get('/app/sport/all');
                 setSports(sportsResponse.data);
 
-                const userSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
+                const userSportsResponse = await api.get(`/app/sport/sports/${userId}`);
                 setSportLists(userSportsResponse.data);
             } catch (error) {
                 console.error(error);
@@ -30,8 +32,8 @@ export default function SportDropDown({ profileId }) {
             }
         };
 
-        fetchSportsAndUserSports();
-    }, [profileId]);
+        getSportsAndUserSports();
+    });
 
     const handleDelete = async (sportUserId) => {
         if (sportLists.length <= 1) {
@@ -58,7 +60,7 @@ export default function SportDropDown({ profileId }) {
                         try {
                             await api.delete(`/app/sport/${sportUserId}`);
                             // Recharger la liste des sports après suppression
-                            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
+                            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${userId}`);
                             setSportLists(updatedUserSportsResponse.data);
                         } catch (error) {
                             console.error('Error deleting sport:', error);
@@ -90,12 +92,12 @@ export default function SportDropDown({ profileId }) {
 
         try {
             await api.post('/app/sport/addForUser', {
-                memberId: profileId,
+                memberId: userId,
                 sportId: selectedSportId,
                 level
             });
             // Recharger la liste des sports après ajout
-            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
+            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${userId}`);
             setSportLists(updatedUserSportsResponse.data);
             setSelectedSportId(null); // Réinitialiser la sélection
             setNewSportLevel(""); // Réinitialiser le niveau
@@ -117,7 +119,7 @@ export default function SportDropDown({ profileId }) {
                 newLevel: level
             });
             // Recharger la liste des sports après modification
-            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${profileId}`);
+            const updatedUserSportsResponse = await api.get(`/app/sport/sports/${userId}`);
             setSportLists(updatedUserSportsResponse.data);
             setEditSportId(null); // Réinitialiser l'ID du sport modifié
             setEditSportLevel(""); // Réinitialiser le niveau modifié

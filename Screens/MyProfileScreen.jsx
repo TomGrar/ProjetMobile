@@ -8,14 +8,15 @@ import ProfileInformation from "../Components/Profile/ProfileInformation";
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import api from "../utils/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import{useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 
 export default function MyProfileScreen() {
     const [profile, setProfile] = useState([]);
     const [loading, setLoading] = useState(true);
     const fontStyles = Montserrat();
     const navigation = useNavigation();
+    const userId = useSelector((state) => state.user.userId);
 
     function goToEditing(){
         navigation.navigate('EditingProfile', {profile: profile});
@@ -23,10 +24,9 @@ export default function MyProfileScreen() {
 
     useEffect(() => {
         const getProfileDatas = async () => {
-            const userId = await AsyncStorage.getItem('userId');
             try {
                 const response = await api.get(`/app/member/profile/${userId}`);
-                setProfile(response.data);  // Assurez-vous que la structure est correcte
+                setProfile(response.data);
 
             } catch (error) {
                 console.error("Erreur lors de la récupération des données:", error);

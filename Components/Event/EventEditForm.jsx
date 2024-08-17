@@ -85,6 +85,9 @@ export default function EventEditForm({ event }) {
         if (!event.city) newErrors.city = "Ville est requise.";
         if (!event.date) newErrors.date = "Date de l'événement est requise.";
         if (!event.description) newErrors.description = "Description est requise.";
+        if (!event.street) newErrors.street = "Rue est requise.";
+        if (!event.number) newErrors.streetnumber = "Numéro est requis.";
+        if (!event.postalcode) newErrors.postalcode = "Code postal est requis.";
         return newErrors;
     }
 
@@ -145,11 +148,13 @@ export default function EventEditForm({ event }) {
                 style={styles.inputHalfWidth}
                 value={(eventState.postalcode || '').toString()}
                 onChangeText={(text) => handleChange('postalcode', text)}
+                error={errors.postalcode}
             />
             <FieldForms
                 title={"Rue"}
                 value={eventState.street || ''}
                 onChangeText={(text) => handleChange('street', text)}
+                error={errors.street}
             />
             <FieldForms
                 title={"Numéro de Rue"}
@@ -157,14 +162,16 @@ export default function EventEditForm({ event }) {
                 style={styles.inputHalfWidth}
                 value={(eventState.number || '').toString()}
                 onChangeText={(text) => handleChange('number', text)}
+                error={errors.streetnumber}
             />
             <FieldForms
                 title={"Pays"}
                 value={eventState.country || ''}
                 onChangeText={(text) => handleChange('country', text)}
+                error={errors.country}
             />
             <ButtonRectangle onPress={handleSave} style={styles.button}>
-                <Text style={[styles.textConfirm, { fontFamily: fontStyles.bold }]}>Créer</Text>
+                <Text style={[styles.buttonText, { fontFamily: fontStyles.bold }]}>Sauvegarder</Text>
             </ButtonRectangle>
         </View>
     );
@@ -185,5 +192,20 @@ const styles = StyleSheet.create({
 
     inputHalfWidth: {
         width: "50%",
+    },
+
+    button: {
+        backgroundColor: '#E8871E',
+        height: 50,
+        borderRadius: 5,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: 20,
+        alignSelf: 'center',
+        bottom: '3%'
+    },
+    buttonText: {
+        fontSize: 18,
+        color: 'white',
     },
 });

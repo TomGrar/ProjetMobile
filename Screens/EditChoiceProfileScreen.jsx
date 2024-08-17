@@ -6,14 +6,16 @@ import { useNavigation } from '@react-navigation/native';
 import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import ButtonRectangle from "../Components/ButtonRectangle";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useDispatch} from "react-redux";
+import {logout} from "../redux/Redux";
 
 export default function EditingChoiceScreen({route}) {
     const navigation = useNavigation();
     const {profile} = route.params;
+    const dispatch = useDispatch();
 
     function goEditPassword(){
-        navigation.navigate('EditPassword', {profileId : profile.id})
+        navigation.navigate('EditPassword')
     }
 
     function goEditMainInformation(){
@@ -21,7 +23,7 @@ export default function EditingChoiceScreen({route}) {
     }
 
     function goEditSports(){
-        navigation.navigate('EditSports', {profileId : profile.id})
+        navigation.navigate('EditSports')
     }
 
     const fontStyles = Montserrat();
@@ -44,11 +46,10 @@ export default function EditingChoiceScreen({route}) {
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            // Effacer les données d'authentification de l'AsyncStorage
-                            await AsyncStorage.removeItem('userToken');
-                            await AsyncStorage.removeItem('userId');
+                            // Dispatch the logout action
+                            dispatch(logout());
                             // Rediriger vers l'écran de connexion
-                            navigation.navigate('Login'); // Assurez-vous que 'Login' est le nom correct de votre écran de connexion
+                            navigation.navigate("Login");
                         } catch (error) {
                             console.error(error);
                         }

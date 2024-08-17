@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux"; // Import useDispatch
+import { loginSuccess } from "../../redux/Redux"; // Import loginSuccess action
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
 import api from "../../utils/api";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     // Fonction pour réinitialiser les champs
     const resetForm = () => {
@@ -26,11 +28,10 @@ export default function Login() {
             const response = await api.post("/login", { email, password });
             if (response.status === 200) {
                 const { token, userId } = response.data;
-                // Stocker le token et l'id
-                await AsyncStorage.setItem('userToken', token);
-                await AsyncStorage.setItem('userId', userId.toString());
+
+                dispatch(loginSuccess({ token, userId })); // Dispatch loginSuccess action
                 resetForm();
-                // Naviguer vers l'écran d'accueil
+
                 navigation.navigate('Home');
             }
         } catch (error) {
