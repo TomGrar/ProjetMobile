@@ -6,7 +6,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import ButtonRectangle from "../ButtonRectangle";
 import api from "../../utils/api";
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Picker} from "@react-native-picker/picker";
 import {useSelector} from "react-redux";
 
@@ -86,7 +85,6 @@ export default function CreateEventForm() {
         if (Object.keys(validationErrors).length === 0) {
             setLoading(true);
             try {
-                const userId = await AsyncStorage.getItem("userId");
                 const response = await api.post(`/app/event/add`, {
                     ...eventState,
                     creatorId: Number(userId)

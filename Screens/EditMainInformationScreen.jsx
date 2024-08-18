@@ -9,8 +9,7 @@ import Montserrat from "../assets/MontSerratFonts";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import ProfileEditForm from "../Components/Profile/ProfileEditForm";
 
-export default function EditMainInformationScreen({route}) {
-    const {profile} = route.params;
+export default function EditMainInformationScreen() {
     const fontStyles = Montserrat();
 
     if (!fontStyles) {
@@ -27,7 +26,7 @@ export default function EditMainInformationScreen({route}) {
                 <Text style={[styles.textBack,{fontFamily: fontStyles.medium}]}>Mes informations</Text>
             </BackButton>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <ProfileEditForm profile={profile}/>
+                <ProfileEditForm/>
             </ScrollView>
         </KeyboardAvoidingView>
     );

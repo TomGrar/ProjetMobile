@@ -7,10 +7,29 @@ import RadioButtonGender from "./RadioButtonsGender";
 import { useNavigation } from '@react-navigation/native';
 import api from "../../utils/api";
 import ButtonRectangle from "../ButtonRectangle";
+import {useSelector} from "react-redux";
 
-export default function ProfileEditForm({ profile }) {
+export default function ProfileEditForm() {
     const navigation = useNavigation();
     const [showPicker, setShowPicker] = useState(false);
+    const [profile, setProfile] = useState([]);
+    const userId = useSelector((state) => state.user.userId);
+
+    useEffect(() => {
+        const getProfileDatas = async () => {
+            try {
+                const response = await api.get(`/app/member/profile/${userId}`);
+                setProfile(response.data);
+
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getProfileDatas();
+    }, []);
+
     const [birthday, setBirthday] = useState(new Date(profile.birthday || Date.now()));
 
     const [profileState, setProfileState] = useState({

@@ -9,9 +9,8 @@ import ButtonRectangle from "../Components/ButtonRectangle";
 import {useDispatch} from "react-redux";
 import {logout} from "../redux/Redux";
 
-export default function EditingChoiceScreen({route}) {
+export default function EditingChoiceScreen() {
     const navigation = useNavigation();
-    const {profile} = route.params;
     const dispatch = useDispatch();
 
     function goEditPassword(){
@@ -19,7 +18,7 @@ export default function EditingChoiceScreen({route}) {
     }
 
     function goEditMainInformation(){
-        navigation.navigate('EditMainInformation', {profile : profile})
+        navigation.navigate('EditMainInformation')
     }
 
     function goEditSports(){

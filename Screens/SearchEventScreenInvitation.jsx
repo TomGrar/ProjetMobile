@@ -31,7 +31,6 @@ export default function SearchEventScreenInvitation({route}) {
     const [eventsData, setEventsData] = useState([]);
     const [sports, setSports] = useState([]);
     const [localities, setLocalities] = useState([]);
-    const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
         getAPI();

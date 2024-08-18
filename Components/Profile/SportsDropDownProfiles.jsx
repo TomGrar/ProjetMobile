@@ -33,7 +33,7 @@ export default function SportDropDown() {
         };
 
         getSportsAndUserSports();
-    });
+    },[]);
 
     const handleDelete = async (sportUserId) => {
         if (sportLists.length <= 1) {
@@ -246,10 +246,10 @@ const styles = StyleSheet.create({
         padding: 15,
         marginBottom: 15,
         alignItems: 'center',
-        width: '90%', // Réduit la largeur
-        alignSelf: 'center', // Centre le conteneur
-        height: 'auto', // Ajuster la hauteur au contenu
-        minHeight: 120, // Hauteur minimale pour éviter un conteneur trop petit
+        width: '90%',
+        alignSelf: 'center',
+        height: 'auto',
+        minHeight: 120,
     },
     sportName: {
         fontSize: 22,
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     editSection: {
         width: '100%',
         alignItems: 'center',
-        marginBottom: 10, // Ajouter un espace en bas pour les boutons
+        marginBottom: 10,
     },
     textInput: {
         borderColor: '#ddd',
@@ -301,18 +301,18 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     deleteButton: {
-        marginRight: 10, // Espacement entre les boutons
+        marginRight: 10,
     },
     editButton: {
-        marginLeft: 10, // Espacement entre les boutons
+        marginLeft: 10,
     },
     addSportContainer: {
         backgroundColor: '#fff',
         borderRadius: 10,
         padding: 15,
         marginTop: 20,
-        width: '90%', // Réduit la largeur
-        alignSelf: 'center', // Centre le conteneur
+        width: '90%',
+        alignSelf: 'center',
     },
     label: {
         fontSize: 18,

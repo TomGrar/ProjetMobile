@@ -19,7 +19,7 @@ export default function MyProfileScreen() {
     const userId = useSelector((state) => state.user.userId);
 
     function goToEditing(){
-        navigation.navigate('EditingProfile', {profile: profile});
+        navigation.navigate('EditingProfile');
     }
 
     useEffect(() => {
