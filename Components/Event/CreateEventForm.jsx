@@ -110,6 +110,7 @@ export default function CreateEventForm() {
         if (!event.sportId) newErrors.sport = "Sport est requis.";
         if (!event.city) newErrors.city = "Ville est requise.";
         if (!event.date) newErrors.date = "Date de l'événement est requise.";
+        if (!event.description) newErrors.description = "Description est requise.";
         if (!event.street) newErrors.street = "Rue est requise.";
         if (!event.number) newErrors.streetnumber = "Numéro est requis.";
         if (!event.postalcode) newErrors.postalcode = "Code postal est requis.";
@@ -147,6 +148,7 @@ export default function CreateEventForm() {
                 numberOfLines={4}
                 value={eventState.description || ''}
                 onChangeText={(text) => handleChange('description', text)}
+                error={errors.description}
             />
             <Pressable onPress={toggleDatePicker} style={styles.dateFieldContainer}>
                 <FieldForms
