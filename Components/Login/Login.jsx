@@ -29,7 +29,7 @@ export default function Login() {
             if (response.status === 200) {
                 const { token, userId } = response.data;
 
-                dispatch(loginSuccess({ token, userId })); // Dispatch loginSuccess action
+                dispatch(loginSuccess({ token, userId }));
                 resetForm();
 
                 navigation.navigate('Home');
