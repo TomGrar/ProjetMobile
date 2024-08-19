@@ -113,6 +113,7 @@ export default function CreateEventForm() {
         if (!event.street) newErrors.street = "Rue est requise.";
         if (!event.number) newErrors.streetnumber = "Numéro est requis.";
         if (!event.postalcode) newErrors.postalcode = "Code postal est requis.";
+        if (!event.country) newErrors.country = "Les pays est requis.";
         return newErrors;
     }
 
