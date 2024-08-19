@@ -107,15 +107,14 @@ export default function ProfileEditForm() {
         const newErrors = {};
         if (!profile.firstname) newErrors.firstname = "Prénom est requis.";
         if (!profile.lastname) newErrors.lastname = "Nom est requis.";
-        if (!profile.street) newErrors.street = "Rue est requise.";
-        if (!profile.streetnumber || isNaN(profile.streetnumber)) newErrors.streetnumber = "Numéro de rue est requis et doit être un nombre.";
-        if (!profile.postalcode || isNaN(profile.postalcode)) newErrors.postalcode = "Code postal est requis et doit être un nombre.";
+
 
         // Validation des informations d'adresse
         if (!profile.street) newErrors.street = "Rue est requise.";
         if (!profile.streetnumber) newErrors.streetnumber = "Numéro est requis.";
         if (!profile.city) newErrors.city = "Localité est requise.";
         if (!profile.postalcode) newErrors.postalcode = "Code postal est requis.";
+        if (!profile.description) newErrors.description = "La description est requise.";
         return newErrors;
     }
 
@@ -145,6 +144,7 @@ export default function ProfileEditForm() {
                 numberOfLines={4}
                 value={profileState.description || ''}
                 onChangeText={(text) => handleChange('description', text)}
+                error={errors.description}
             />
             <Pressable onPress={toggleDatePicker} style={{ width: "100%" }}>
                 <FieldForms
@@ -195,6 +195,7 @@ export default function ProfileEditForm() {
                 title={"Localité"}
                 value={profileState.city || ''}
                 onChangeText={(text) => handleChange('city', text)}
+                error={errors.city}
             />
             <FieldForms
                 title={"Code Postal"}

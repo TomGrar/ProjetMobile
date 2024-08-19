@@ -137,6 +137,7 @@ export default function RegisterForm() {
         if (!formData.email) newErrors.email = "Email est requis.";
         if (!formData.password) newErrors.password = "Mot de passe est requis.";
         if (formData.password !== confirmPassword) newErrors.confirmPassword = "Les mots de passe ne correspondent pas.";
+        if (formData.biography) newErrors.biography = "Les mots de passe ne correspondent pas.";
 
         // Validation des informations de sport
         if (!selectedSport) newErrors.sport = "Sport est requis.";
@@ -265,6 +266,7 @@ export default function RegisterForm() {
                     numberOfLines={4}
                     value={formData.biography}
                     onChangeText={(text) => handleChange('biography', text)}
+                    error={errors.biography}
                 />
                 <ButtonRectangle onPress={handleRegister} style={styles.button}>
                     <Text style={[styles.buttonText, { fontFamily: fontStyles.bold }]}>S'inscrire</Text>
