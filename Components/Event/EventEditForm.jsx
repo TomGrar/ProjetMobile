@@ -133,7 +133,7 @@ export default function EventEditForm({ event }) {
                     textColor="#46494c"
                     value={eventDate}
                     onChange={onChangeDate}
-                    maximumDate={new Date()}
+                    minimumDate={new Date()}
                 />
             )}
             <FieldForms
